@@ -1,0 +1,8 @@
+prefix=GWeather
+modules=
+lib=grss
+call_prefix=
+include-directory=/usr/src/libgrss-0.7.0/src
+backups=backup,bitbucket,google-backup,azure-backup,hut
+build_exclude=
+struct-prefix=

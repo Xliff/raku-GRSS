@@ -1,0 +1,8 @@
+GLib::Raw::Definitions
+GRSS::Raw::Definitions
+GRSS::Raw::Feed::Channel
+GRSS::Raw::Types
+GSS::Raw::Person
+GSS::Raw::Types
+NativeCall
+
