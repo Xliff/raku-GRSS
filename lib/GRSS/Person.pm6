@@ -1,11 +1,15 @@
 use v6.c;
 
-use GSS::Raw::Types;
-use GSS::Raw::Person;
+use GRSS::Raw::Types;
+use GRSS::Raw::Person;
+
+use GLib::Roles::Implementor;
 
 # BOXED
-class GSS::Person {
-  has GssPerson $!gp;
+class GRSS::Person {
+  also does GLib::Roles::Implementor;
+
+  has GrssPerson $!gp is implementor;
 
   submethod BUILD ( :$grss-person ) {
     $!gp = $grss-person;
@@ -28,7 +32,7 @@ class GSS::Person {
   method get_type {
     state ($n, $t);
 
-    unstable_get_type( self.^name. &grss_person_get_type, $n, $t );
+    unstable_get_type( self.^name, &grss_person_get_type, $n, $t );
   }
 
   method get_uri {
