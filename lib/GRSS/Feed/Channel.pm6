@@ -1,13 +1,25 @@
 use v6.c;
 
+use NativeCall;
+
+use LibXML::Raw;
+
+use GLib::Raw::Traits;
 use GRSS::Raw::Types;
 use GRSS::Raw::Feed::Channel;
+
+use GLib::GList;
+use GLib::GSList;
+
+use GLib::Roles::Object;
 
 our subset GrssFeedChannelAncestry is export of Mu
   where GrssFeedChannel | GObject;
 
 class GRSS::Feed::Channel {
-  has GrssFeedChannel $!gfc;
+  also does GLib::Roles::Object;
+
+  has GrssFeedChannel $!gfc is implementor;
 
   submethod BUILD ( :$grss-feed-channel ) {
     self.setGrssFeedChannel($grss-feed-channel) if $grss-feed-channel
@@ -36,7 +48,7 @@ class GRSS::Feed::Channel {
   multi method new (GrssFeedChannelAncestry $grss-feed-channel, :$ref = True) {
     return Nil unless $grss-feed-channel;
 
-    my $o = self.bless( :$grss-feed-channel )
+    my $o = self.bless( :$grss-feed-channel );
     $o.ref if $ref;
     $o;
   }
@@ -48,7 +60,7 @@ class GRSS::Feed::Channel {
 
   method new_from_file (
     Str()                   $path,
-    CArray[Pointer[GError]] $error = error
+    CArray[Pointer[GError]] $error = gerror
   ) {
     clear_error;
     my $grss-feed-channel = grss_feed_channel_new_from_file($path, $error);
@@ -243,7 +255,7 @@ class GRSS::Feed::Channel {
     my $l = grss_feed_channel_fetch_all($!gfc, $error);
     set_error($error);
 
-    returnGList($l, $raw, $glist, |GList::Feed::Item.getTypePair);
+    returnGList($l, $raw, $glist, |::('GRSS::Feed::Item').getTypePair);
   }
 
   method fetch_all_async (&callback, gpointer $user_data = gpointer) {
@@ -251,8 +263,10 @@ class GRSS::Feed::Channel {
   }
 
   method fetch_all_finish (
-    GAsyncResult()          $res,
-    CArray[Pointer[GError]] $error
+    GAsyncResult()           $res,
+    CArray[Pointer[GError]]  $error = gerror,
+                            :$raw   = False,
+                            :$glist = False
   ) {
     clear_error;
     my $l = grss_feed_channel_fetch_all_finish($!gfc, $res, $error);
@@ -402,7 +416,7 @@ class GRSS::Feed::Channel {
 
   method get_update_time ( :$raw = False ) {
     my $t = grss_feed_channel_get_update_time($!gfc);
-    return $r if $raw;
+    return $t if $raw;
     DateTime.new($t);
   }
 
