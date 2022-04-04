@@ -4,9 +4,9 @@ use NativeCall;
 
 use GLib::Raw::Definitions;
 use GRSS::Raw::Definitions;
+use GRSS::Raw::Structs;
 
 unit package GRSS::Raw::Person;
-
 
 ### /usr/src/libgrss-0.7.0/src/person.h
 
@@ -49,4 +49,4 @@ sub grss_person_ref (GrssPerson $person)
 sub grss_person_unref (GrssPerson $person)
   is native(grss)
   is export
-{ * } 
+{ * }

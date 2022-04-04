@@ -1,7 +1,13 @@
 use NativeCall;
 
+use LibXML::Raw;
+
 use GLib::Raw::Definitions;
+use GLib::Raw::Structs;
+use GIO::Raw::Definitions;
+use SOUP::Raw::Definitions;
 use GRSS::Raw::Definitions;
+use GRSS::Raw::Structs;
 
 unit package GRSS::Raw::Feed::Channel;
 
@@ -234,7 +240,7 @@ sub grss_feed_channel_new_from_file (Str $path, CArray[Pointer[GError]] $error)
 { * }
 
 sub grss_feed_channel_new_from_memory (
-  Str                     $data,
+  Pointer                 $data,
   CArray[Pointer[GError]] $error
 )
   returns GrssFeedChannel
@@ -243,7 +249,7 @@ sub grss_feed_channel_new_from_memory (
 { * }
 
 sub grss_feed_channel_new_from_xml (
-  xmlDocPtr               $doc,
+  xmlDoc                  $doc,
   CArray[Pointer[GError]] $error
 )
   returns GrssFeedChannel
