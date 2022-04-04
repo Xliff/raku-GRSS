@@ -1,4 +1,4 @@
-prefix=GWeather
+prefix=GRSS
 modules=
 lib=grss
 call_prefix=
