@@ -10,7 +10,7 @@ unit package GRSS::Raw::Definitions;
 
 constant grss is export = 'grss',v0;
 
-class GrssPerson is repr<CPointer> is export does GLib::Roles::Pointers { }
+class GrssPerson    is repr<CPointer> is export does GLib::Roles::Pointers { }
 
 constant FeedSubscriptionStatus is export := guint32;
 our enum FeedSubscriptionStatusEnum is export <
