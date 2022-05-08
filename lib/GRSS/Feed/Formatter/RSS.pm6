@@ -6,12 +6,14 @@ use GRSS::Raw::Feed::Formatter;
 
 use GLib::GList;
 
+use GRSS::Feed::Formatter;
+
 use GLib::Roles::Object;
 
 our subset GrssFeedRssFormatterAncestry is export of Mu
-  where GrssFeedRssFormatter | GObject;
+  where GrssFeedRssFormatter | GrssFeedFormatterAncestry;
 
-class GRSS::Feed::Formatter {
+class GRSS::Feed::Formatter is GRSS::Feed::Formatter {
   also does GLib::Roles::Object;
 
   has GrssFeedRssFormatter $!gffr is implementor;
@@ -25,7 +27,7 @@ class GRSS::Feed::Formatter {
 
     $!gffr = do {
       when GrssFeedRssFormatter {
-        $to-parent = cast(GObject, $_);
+        $to-parent = cast(GrssFeedFormatter, $_);
         $_;
       }
 
@@ -34,6 +36,7 @@ class GRSS::Feed::Formatter {
         cast(GrssFeedRssFormatter, $_);
       }
     }
+    self.setGrssFeedFormatter($to-parent);
   }
 
   multi method new (GrssFeedRssFormatterAncestry $grss-feed-formatter-rss, :$ref = True) {
