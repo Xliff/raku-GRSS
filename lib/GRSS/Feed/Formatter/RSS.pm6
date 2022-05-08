@@ -13,7 +13,7 @@ use GLib::Roles::Object;
 our subset GrssFeedRssFormatterAncestry is export of Mu
   where GrssFeedRssFormatter | GrssFeedFormatterAncestry;
 
-class GRSS::Feed::Formatter is GRSS::Feed::Formatter {
+class GRSS::Feed::Formatter::RSS is GRSS::Feed::Formatter {
   also does GLib::Roles::Object;
 
   has GrssFeedRssFormatter $!gffr is implementor;
