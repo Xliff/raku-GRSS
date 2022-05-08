@@ -80,7 +80,7 @@ class GRSS::Feed::Channel {
     samewith( $data.encode($encoding), $error );
   }
   multi method new_from_memory (
-    Buf                     $data,
+    Blob                    $data,
     CArray[Pointer[GError]] $error = gerror
   ) {
     samewith( CArray[uint8].new($data), $error );
