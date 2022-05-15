@@ -10,6 +10,8 @@ unit package GRSS::Raw::Definitions;
 
 constant grss is export = 'grss',v0;
 
+constant forced = 2;
+
 class GrssPerson            is repr<CPointer> is export does GLib::Roles::Pointers { }
 class GrssFeedsGroupHandler is repr<CPointer> is export does GLib::Roles::Pointers { }
 
