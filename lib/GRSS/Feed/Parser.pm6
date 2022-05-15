@@ -2,6 +2,8 @@ use v6.c;
 
 use NativeCall;
 
+use LibXML::Raw;
+
 use GRSS::Raw::Types;
 
 use GLib::GList;
@@ -19,7 +21,7 @@ class GRSS::Feed::Parser {
   method setGrssFeedParser (GrssFeedParserAncestry $_) {
     my $to-parent;
 
-    $!gfc = do {
+    $!gfp = do {
       when GrssFeedParser {
         $to-parent = cast(GObject, $_);
         $_;
@@ -34,12 +36,12 @@ class GRSS::Feed::Parser {
   }
 
   method GRSS::Raw::Structs::GrssFeedParser
-  { $!gfc }
+  { $!gfp }
 
   multi method new (GrssFeedParserAncestry $grss-feed-parser, :$ref = True) {
     return Nil unless $grss-feed-parser;
 
-    my $o = self.bless( :$grss-feed-parser )
+    my $o = self.bless( :$grss-feed-parser );
     $o.ref if $ref;
     $o;
   }
@@ -58,7 +60,7 @@ class GRSS::Feed::Parser {
   method parse (
     GrssFeedChannel()        $feed,
     xmlDoc()                 $doc,
-    CArray[Pointer[GError]]  $error = gerror
+    CArray[Pointer[GError]]  $error = gerror,
                             :$raw   = False,
                             :$glist = False
   ) {
